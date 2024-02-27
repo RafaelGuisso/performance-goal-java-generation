@@ -3,14 +3,12 @@ package loja.model;
 public class Produto {
   
   private int id;
-	private int estoque;
 	private int tipo;
 	private String produto;
 	private float preco;
 
-	public Produto(int id, int estoque, int tipo, String produto, float preco) {
+	public Produto(int id, int tipo, String produto, float preco) {
 		this.id = id;
-		this.estoque = estoque;
 		this.tipo = tipo;
 		this.produto = produto;
 		this.preco = preco;
@@ -24,14 +22,6 @@ public class Produto {
 
 	public void setId(int numero) {
 		this.id = numero;
-	}
-
-	public int getEstoque() {
-		return estoque;
-	}
-
-	public void setEstoque(int estoque) {
-		this.estoque = estoque;
 	}
 
 	public int getTipo() {
@@ -57,23 +47,6 @@ public class Produto {
 	public void setPreco(float preco) {
 		this.preco = preco;
 	}
-
-	public boolean vender(int valor) { 
-		
-		if(this.getEstoque() < valor) {
-			System.out.println("\n Produto fora de Estoque!");
-			return false;
-		}
-			
-		this.setEstoque(this.getEstoque() - valor);
-		return true;
-	}
-
-	public void depositar(int valor) {
-
-		this.setEstoque(this.getEstoque() + valor);
-
-	}
 	
 	public void visualizar() {
 
@@ -92,7 +65,6 @@ public class Produto {
 		System.out.println("Dados do Produto:");
 		System.out.println("***********************************************************");
 		System.out.println("ID: " + this.id);
-		System.out.println("Estoque: " + this.estoque);
 		System.out.println("Tipo de Produto: " + tipo);
 		System.out.println("Nome do Produto: " + this.produto);
 		System.out.println("Preço: " + this.preco);

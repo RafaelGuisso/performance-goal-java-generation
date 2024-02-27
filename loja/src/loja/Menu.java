@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-// import conta.controller.ContaController;
-// import conta.model.ContaCorrente;
-// import conta.model.ContaPoupanca;
-// import conta.util.Cores;
+
+import produto.controller.ProdutoController;
+import loja.model.ProdutoConsole;
+import loja.model.ProdutoJogo;
 
 public class Menu {
 	public static void main(String[] args) throws Exception {
@@ -19,9 +19,18 @@ public class Menu {
 
 		// Entrada de dados
 		
-		int opcao, id, tipo, aniversario, estoque, valor;
+		ProdutoController produtos = new ProdutoController();
+		
+		int opcao, id, tipo, aniversario, valor;
 		String produto, marca;
 		float preco;
+		
+		
+		produtos.cadastrar(Console1);
+		produtos.cadastrar(Console2);
+		produtos.cadastrar(Jogo1);
+		produtos.cadastrar(Jogo2);
+		
 
 		while (true) {
 
@@ -36,9 +45,7 @@ public class Menu {
 			System.out.println("            3 - Buscar Produto por Número            ");
 			System.out.println("            4 - Atualizar Dados do Produto           ");
 			System.out.println("            5 - Apagar Produto                       ");
-			System.out.println("            6 - Efetuar Venda                        ");
-			System.out.println("            7 - Repor Estoque                        ");
-			System.out.println("            8 - Sair                                 ");
+			System.out.println("            6 - Sair                                 ");
 			System.out.println("                                                     ");
 			System.out.println("-----------------------------------------------------");
 			System.out.println("Entre com a opção desejada:                          ");
@@ -52,7 +59,7 @@ public class Menu {
 				opcao = 0;
 			}
 
-			if (opcao == 8) {
+			if (opcao == 6) {
 				System.out.println("\nBem Vindo a LOJA GENERATION GAMES!");
 				sobre();
 				leia.close();
@@ -68,8 +75,6 @@ public class Menu {
 					System.out.println("Digite o Nome do Produto: ");
 					leia.skip("\\R?");
 					produto = leia.nextLine();
-					System.out.println("Digite o Estoque do Produto");
-					estoque = leia.nextInt();
 
 					do {
 						System.out.println("Digite é um console(1) ou um jogo(2)? ");
@@ -83,14 +88,13 @@ public class Menu {
 						case 1 -> {
 							System.out.println("Digite a marca do console");
 							marca = leia.next();
-			//				contas.cadastrar(
-			//						new ContaCorrente(contas.gerarNumero(), tipo, produto, preco, estoque, marca));
+							produtos.cadastrar(
+								new ProdutoConsole(produtos.gerarNumero(), tipo, produto, preco, marca));
 						}
 						case 2 -> {
 							System.out.println("Digite o ano de lançamento do jogo");
 							aniversario = leia.nextInt();
-			//				contas.cadastrar(new ContaPoupanca(contas.gerarNumero(), tipo, produto, preco, estoque,
-			//						aniversario));
+							produtos.cadastrar(new ProdutoJogo(produtos.gerarNumero(), tipo, produto, preco, aniversario));
 						}
 					}
 
@@ -99,17 +103,17 @@ public class Menu {
 				case 2:
 					System.out.println("Listar Produtos\n\n");
 
-			//		produto.listarTodas();
+					produtos.listarTodas();
 
 					keyPress();
 					break;
 				case 3:
-					System.out.println("Buscar Conta por número\n\n");
+					System.out.println("Buscar Produto por id\n\n");
 
-					System.out.println("Digite o número da conta: ");
+					System.out.println("Digite o número do id: ");
 					id = leia.nextInt();
 
-			//		contas.procurarPorNumero(id);
+					produtos.procurarPorId(id);
 
 					keyPress();
 					break;
@@ -119,10 +123,9 @@ public class Menu {
 					System.out.println("Digite o ID do Produto: ");
 					id = leia.nextInt();
 
-			//		var buscaConta = contas.buscarNaCollection(id);
-					Integer valorid = id;
+					var buscaProduto = produtos.buscarNaCollection(id);
 
-					if ( valorid != null) {
+					if (buscaProduto != null) {
 
 						System.out.println("Digite o Nome do Produto: ");
 						leia.skip("\\R?");
@@ -130,72 +133,40 @@ public class Menu {
 
 						System.out.println("Digite o Preço (R$): ");
 						preco = leia.nextFloat();
-						
-						System.out.println("Digite o Estoque do Produto");
-						estoque = leia.nextInt();
-					}
+				
+					
+						tipo = buscaProduto.getTipo();
 
-			//			tipo = buscaConta.getTipo();
+						switch (tipo) {
+							case 1 -> {
+								System.out.println("Digite a marca do console: ");
+								marca = leia.next();
+								produtos.atualizar(
+										new ProdutoConsole(id, tipo, produto, preco, marca));;
+							}
+							case 2 -> {
+								System.out.println("Digite o ano de lançamento do jogo: ");
+								aniversario = leia.nextInt();
+								produtos.atualizar(
+										new ProdutoJogo(id, tipo, produto, preco, aniversario));;
+							}
+							default ->
+								System.out.println("Tipo de conta inválido!");
 
-			//			switch (tipo) {
-			//				case 1 -> {
-			//					System.out.println("Digite a marca do console: ");
-			//					String marca1 = leia.next();
-				//				contas.cadastrar(
-				//						new ContaCorrente(contas.gerarNumero(), tipo, produto, preco, estoque, marca));
-			//				}
-			//				case 2 -> {
-			//					System.out.println("Digite o ano de lançamento do jogo: ");
-			//					aniversario = leia.nextInt();
-					//			contas.atualizar(new ContaPoupanca(id, tipo, produto, preco, estoque, aniversario));
-			//				}
-				//			default -> {
-			//					System.out.println("Tipo de conta inválido!");
-				//			}
-				//		}
-
-				//	} else
-				//		System.out.println("\nProduto não encontrado!");
-
-			//		keyPress();
-			//		break;
+					} } 
+					else
+						System.out.println("\nProduto não encontrado!");
+					
+					keyPress();
+					break;
 				case 5:
-					System.out.println("Apagar o Produto\n\n");
+
+					System.out.println("Apagar Produto\n\n");
 
 					System.out.println("Digite o id do produto: ");
 					id = leia.nextInt();
 
-				//	contas.deletar(id);
-
-					keyPress();
-					break;
-				case 6:
-					System.out.println( "Efetuar Venda\n\n");
-
-					System.out.println();
-					id = leia.nextInt();
-
-					do {
-						System.out.println("Digite a quantidade desse produto vendido: ");
-						valor = leia.nextInt();
-					} while (valor <= 0);
-
-				//	contas.sacar(id, valor);
-
-					keyPress();
-					break;
-				case 7:
-					System.out.println("Renovação de estoque\n\n");
-
-					System.out.println("Digite o Numero do id: ");
-					id = leia.nextInt();
-
-					do {
-						System.out.println("Número de estoqeu adicionado ");
-						valor = leia.nextInt();
-					} while (valor <= 0);
-
-				//	contas.depositar(id, valor);
+					produtos.deletar(id);
 
 					keyPress();
 					break;

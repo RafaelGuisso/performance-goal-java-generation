@@ -1,13 +1,11 @@
 package loja.model;
 
-import loja.model.Produto;
-
 public class ProdutoConsole extends Produto{
 
 	private String marca;
 
-	public ProdutoConsole(int id, int estoque, int tipo, String produto, float preco, String marca) {
-		super(id, estoque, tipo, produto, preco);
+	public ProdutoConsole(int id, int tipo, String produto, float preco, String marca) {
+		super(id, tipo, produto, preco);
 		this.marca = marca;
 	}
 

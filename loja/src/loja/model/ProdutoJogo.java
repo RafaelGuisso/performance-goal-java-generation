@@ -1,13 +1,11 @@
 package loja.model;
 
-import loja.model.Produto;
-
 public class ProdutoJogo extends Produto{
 
 	private int aniversario;
 
-	public ProdutoJogo(int id, int estoque, int tipo, String produto, float preco, int aniversario) {
-		super(id, estoque, tipo, produto, preco);
+	public ProdutoJogo(int id, int tipo, String produto, float preco, int aniversario) {
+		super(id, tipo, produto, preco);
 		this.aniversario = aniversario;
 	}
 

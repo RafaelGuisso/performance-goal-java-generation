@@ -8,16 +8,16 @@ import loja.Repository.LojaRepository;
 public class ProdutoController implements LojaRepository {
 
     /**
-     *  Collection listaContas contendo Objetos do tipo Conta
+     *  Collection listaprodutos contendo Objetos do tipo Produto
      * */
     private ArrayList<Produto> listaProdutos = new ArrayList<Produto>();
     int id = 0;
     
     /**
-     *  Procurar Conta por numero
+     *  Procurar Produto por id
      * */
     @Override
-    public void procurarPorID(int id) {
+    public void procurarPorId(int id) {
         var produtos = buscarNaCollection(id);
 		
 		if (produtos != null)
@@ -26,15 +26,7 @@ public class ProdutoController implements LojaRepository {
 			System.out.println("\nA O produto número: " + id + " não foi encontrada!");
     }
 
-    /**
-     *  Método Listar todas as Contas
-     * */
-    @Override
-    public void listarTodas() {
-        for (var produtos : listaProdutos) {
-			produtos.visualizar();
-		}        
-    }
+
 
     /** 
      * Método Cadastrar no Conta
@@ -50,10 +42,10 @@ public class ProdutoController implements LojaRepository {
      * */
     @Override
     public void atualizar(Produto produtos) {
-        var buscaConta = buscarNaCollection(produtos.getId());
+        var buscaProduto = buscarNaCollection(produtos.getId());
 		
-		if (buscaConta != null) {
-			listaProdutos.set(listaProdutos.indexOf(buscaConta), produtos);
+		if (buscaProduto != null) {
+			listaProdutos.set(listaProdutos.indexOf(buscaProduto), produtos);
 			System.out.println("\nA Produto numero: " + produtos.getId() + " foi atualizada com sucesso!");
 		}else
 			System.out.println("\nA Produto numero: " + produtos.getId() + " não foi encontrada!");
@@ -64,25 +56,13 @@ public class ProdutoController implements LojaRepository {
      * */
     @Override
     public void deletar(int numero) {
-        var conta = buscarNaCollection(numero);
+        var produtos = buscarNaCollection(numero);
 		
-		if (conta != null) {
-			if(listaProdutos.remove(conta) == true)
-				System.out.println("\nA Produto numero: " + numero + " foi deletado com sucesso!");
+		if (produtos != null) {
+			if(listaProdutos.remove(produtos) == true)
+				System.out.println("\nA Produto numero: " + id + " foi deletado com sucesso!");
 		}else
-			System.out.println("\nA Produto numero: " + numero + " não foi encontrado!");
-    }
-
-    @Override
-    public void vender(int id, int valor) {
-        
-        
-    }
-
-    @Override
-    public void repor(int id, int valor) {
-        
-        
+			System.out.println("\nA Produto numero: " + id + " não foi encontrado!");
     }
 
 	public int gerarNumero() {
@@ -101,27 +81,17 @@ public class ProdutoController implements LojaRepository {
 	}
 
 	@Override
-	public void cadastrar(Produto produto) {
+	public void procurarPorID(int id) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void atualizar(Produto produto) {
+	public void listarTodas() {
+        for (var produtos : listaProdutos) {
+			produtos.visualizar();
+		} 
 		// TODO Auto-generated method stub
-		
+	}
 	}
 
-	@Override
-	public void vender(int id, int valor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void repor(int id, int valor) {
-		// TODO Auto-generated method stub
-		
-	}
     
-}
